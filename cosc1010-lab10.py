@@ -1,23 +1,16 @@
-# Your Name Here
+# Jared Tolman
 # UWYO COSC 1010
-# Submission Date
-# Lab XX
-# Lab Section: 
-# Sources, people worked with, help given to: 
-# your
-# comments
-# here
+# Nov 20th, 2024
+# Lab 10
+# Lab Section: 15
+# Sources, people worked with, help given to: Some Google searches were made for function and syntax help.
+# 
 
 #import modules you will need 
 
 from hashlib import sha256 
-from pathlib import Path
-
 def get_hash(to_hash):
-    """You can use """
     return sha256(to_hash.encode('utf-8')).hexdigest().upper()
-
-
 
 # Files and Exceptions
 
@@ -33,13 +26,39 @@ def get_hash(to_hash):
 # You will need to include a try-except-catch block in your code.
 # - The reading of files needs to occur in the try blocks.
 
-
 # - Read in the value stored within `hash`.
 #   - You must use a try and except block.
 
+try:
+    with open("hash", "r") as pwhash:
+        hash=pwhash.read().strip()
+except FileNotFoundError:
+    print(f"Could not find the file named 'hash'")
+    exit()
+except Exception as Error:
+    print(f"The following error occurred for 'hash': {Error}")
+    exit()
 
 # Read in the passwords in `rockyou.txt`.
 # - Again, you need a try-except-else block.
 # Hash each individual password and compare it against the stored hash.
 # - When you find the match, print the plaintext version of the password.
 # - End your loop.
+
+try:
+    with open("rockyou.txt", "r") as rockyoulist:
+        rockyou=rockyoulist.readlines()
+except FileNotFoundError:
+    print(f"Could not find the file named 'rockyou.txt'")
+    exit()
+except Exception as Error:
+    print(f"The following error occurred for 'rockyou.txt': {Error}")
+    exit()
+else:
+    for pw in rockyou:
+        pw=pw.strip()
+        if get_hash(pw)==hash:
+            print(f"The cracked password is '{pw}'")
+            break
+    else:
+        print("The correct password could not be found")
